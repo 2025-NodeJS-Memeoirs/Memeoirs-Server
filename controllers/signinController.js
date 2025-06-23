@@ -34,14 +34,35 @@ const signinController = {
         return res.status(401).send("비밀번호가 일치하지 않습니다.");
       }
 
-      // JWT 토큰 발급 (비밀키로 서명, 30분 유효)
-      const token = jwt.sign({ userId: user.userId }, "비밀키", { expiresIn: "30m" });
-      res.json({ message: "로그인 성공!", token }); // 토큰 반환
+      // JWT 토큰 발급 (비밀키로 서명, 1시간 유효)
+      const token = jwt.sign({ userId: user.userId }, "비밀키", { expiresIn: "1h" });
+      res.json({
+        message: "로그인 성공!",
+        token,
+        userId: user.userId,
+        name: user.name,
+      });
     } catch (err) {
       console.error("로그인 에러: ", err);
       res.status(500).send("서버 에러");
     }
   },
+
+  // 로그인한 사용자 정보 반환 (인증 필요)
+  getUserInfo: async (req, res) => {
+    try {
+      const user = await UserSignin.findOne({ where: { userId: req.user.userId } });
+
+      if (!user) {
+        return res.status(404).send("사용자를 찾을 수 없습니다.");
+      }
+
+      res.json({ userId: user.userId, name: user.name });
+    } catch (err) {
+      console.error("정보 조회 에러: ", err);
+      res.status(500).send("서버 에러");
+    }
+  }
 };
 
 module.exports = signinController;

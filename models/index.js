@@ -10,16 +10,15 @@ const sequelize = new Sequelize(
     logging: false,
 });
 
-const UserLogin = require('./UserLogin')(sequelize);
 const UserSignin = require('./UserSignin')(sequelize);
 
-const models = { sequelize, UserLogin, UserSignin };
+const models = { sequelize, UserSignin };
 
 // 관계 설정 호출 (여기서 associate 실행)
-Object.values(models).forEach(model => {
-  if (typeof model.associate === 'function') {
-    model.associate(models);
-  }
-});
+// Object.values(models).forEach(model => {
+//   if (typeof model.associate === 'function') {
+//     model.associate(models);
+//   }
+// });
 
 module.exports = models;

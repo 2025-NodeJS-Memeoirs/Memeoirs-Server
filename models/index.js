@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -12,14 +12,15 @@ const sequelize = new Sequelize(
 
 const UserSignin = require('./UserSignin')(sequelize);
 const Post = require('./Post')(sequelize);
+const Comment = require('./Comment')(sequelize);
 
-const models = { sequelize, UserSignin, Post };
+const models = { sequelize, UserSignin, Post, Comment };
 
 // 관계 설정 호출 (여기서 associate 실행)
-// Object.values(models).forEach(model => {
-//   if (typeof model.associate === 'function') {
-//     model.associate(models);
-//   }
-// });
+Object.values(models).forEach(model => {
+  if (typeof model.associate === 'function') {
+    model.associate(models);
+  }
+});
 
 module.exports = models;

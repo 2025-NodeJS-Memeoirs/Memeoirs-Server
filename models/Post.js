@@ -35,12 +35,13 @@ module.exports = (sequelize) => {
         // Post : Comment = 1 : N
         Post.hasMany(models.Comment, {
           foreignKey: 'postId',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE' // 게시글 삭제 시 댓글도 삭제
         });
     
         // Post : UserSignin = N : 1
         Post.belongsTo(models.UserSignin, {
-          foreignKey: 'userId'
+          foreignKey: 'userId',
+          targetKey: 'userId',  // UserSignin의 userId를 참조
         });
       };
     

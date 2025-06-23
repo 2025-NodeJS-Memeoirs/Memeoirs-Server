@@ -24,10 +24,5 @@ module.exports = (sequelize) => {
       timestamps: true,
     }
   );
-
-  UserSignin.associate = models => {
-    UserSignin.hasMany(models.UserLogin, { foreignKey: 'signinId', targetKey: 'id' });
-  };
-
   return UserSignin;
 }

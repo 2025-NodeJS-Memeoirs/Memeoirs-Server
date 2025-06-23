@@ -2,6 +2,7 @@ const express = require('express');
 
 const { sequelize } = require('./models/index'); 
 const signinRouter = require('./routes/signin');
+const commentRouter = require('./routes/comment');
 const app = express();
 
 app.use(express.json());
@@ -17,6 +18,7 @@ sequelize.sync({ force: false })  // force: false로 설정해서 기존 테이�
 
 // 이메일
 app.use('/', signinRouter);
+app.use('/diary', commentRouter);
 
 app.listen(3000, () => {
   console.log('서버가 http://localhost:3000 에서 실행 중입니다.');

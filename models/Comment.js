@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
         autoIncrement: true
       },
       userId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
       },
       postId: {
@@ -24,12 +24,13 @@ module.exports = (sequelize) => {
     });
 
     Comment.associate = (models) => {
-    // 하나의 사용자는 여러 개의 댓글 가능 (N:1 관계)
+    // UserSignin의 userId와 연결, 하나의 사용자는 여러 개의 댓글 가능 (N:1 관계)
     Comment.belongsTo(models.UserSignin, { 
-      foreignKey: 'userId'
+      foreignKey: 'userId',
+      targetKey: 'userId',
     });
     
-    // 하나의 게시물에 여러 개의 댓글 가능 (N:1 관계)
+    // Post의 id의 연결, 하나의 게시물에 여러 개의 댓글 가능 (N:1 관계)
     Comment.belongsTo(models.Post, { 
       foreignKey: 'postId'
     });
